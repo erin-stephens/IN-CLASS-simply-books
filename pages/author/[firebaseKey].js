@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { viewAuthorDetails } from '../../api/mergedData';
+import BookCard from '../../components/BookCard';
 
 export default function ViewAuthor() {
   const [authorDetails, setAuthorDetails] = useState({});
@@ -12,9 +13,12 @@ export default function ViewAuthor() {
 
   console.warn(authorDetails);
 
+  const getAuthorDetails = () => {
+    viewAuthorDetails(firebaseKey).then(setAuthorDetails);
+  }
   // TODO: make call to API layer to get the data
   useEffect(() => {
-    viewAuthorDetails(firebaseKey).then(setAuthorDetails);
+    getAuthorDetails();
   }, [firebaseKey]);
 
   return (
@@ -28,6 +32,9 @@ export default function ViewAuthor() {
           {authorDetails.favorite ? ' 🤍' : ''}
         </h5>
         Author Email: <a href={`mailto:${authorDetails.email}`}>{authorDetails.email}</a>
+      </div>
+      <div className="mt-5 d-flex flex-wrap">
+        {authorDetails.books?.map((book) => <BookCard key={book.firebaseKey} bookObj={book} onUpdate={getAuthorDetails}/> )}
       </div>
     </div>
   );
