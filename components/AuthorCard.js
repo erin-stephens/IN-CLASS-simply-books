@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
+import { deleteAuthorBooks } from '../api/mergedData';
 
 export default function AuthorCard({ authorObj, onUpdate }) {
   // console.warn(authorObj);
